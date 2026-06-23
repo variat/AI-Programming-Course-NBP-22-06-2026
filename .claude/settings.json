@@ -99,5 +99,35 @@
       "Read(examples/**)"
     ]
   },
-  "plansDirectory": "./docs/plans"
+  "plansDirectory": "./docs/plans",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "agent",
+            "if": "Edit(*pom.xml)",
+            "prompt": "Plik pom.xml Maven został zmodyfikowany. Dane narzędzia:\n\n$ARGUMENTS\n\nZadanie:\n1. Porównaj pola 'old_string' i 'new_string' w tool_input — zidentyfikuj nowo dodane bloki <dependency> (czyli te, których NIE ma w old_string, a SĄ w new_string).\n2. Dla każdej nowej zależności (groupId + artifactId + version) zbadaj jej bezpieczeństwo używając WebSearch:\n   - Szukaj CVE dla tej biblioteki (np. 'CVE groupId artifactId')\n   - Sprawdź ostrzeżenia bezpieczeństwa na NVD (nvd.nist.gov), Snyk, GitHub Advisory Database\n   - Sprawdź czy artefakt pochodzi z wiarygodnego źródła i czy nie jest to typosquatting\n   - Oceń czy wskazana wersja jest aktualna i aktywnie utrzymywana\n3. Podaj zwięzły raport z oceną ryzyka NISKIE / ŚREDNIE / WYSOKIE dla każdej nowej zależności oraz ewentualne zalecenia.\n\nJeśli nie dodano żadnych nowych zależności (tylko modyfikacje istniejących), napisz to krótko.\nOdpowiedz w języku polskim.",
+            "model": "claude-sonnet-4-6",
+            "timeout": 120,
+            "statusMessage": "Weryfikacja bezpieczenstwa zaleznosci Maven..."
+          }
+        ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "agent",
+            "if": "Write(*pom.xml)",
+            "prompt": "Nowy plik pom.xml Maven został utworzony. Dane narzędzia:\n\n$ARGUMENTS\n\nZadanie:\n1. Przeanalizuj pole 'content' w tool_input — zidentyfikuj wszystkie bloki <dependency>.\n2. Dla każdej zależności (groupId + artifactId + version) zbadaj jej bezpieczeństwo używając WebSearch:\n   - Szukaj CVE dla tej biblioteki (np. 'CVE groupId artifactId')\n   - Sprawdź ostrzeżenia bezpieczeństwa na NVD (nvd.nist.gov), Snyk, GitHub Advisory Database\n   - Sprawdź czy artefakt pochodzi z wiarygodnego źródła i czy nie jest to typosquatting\n   - Oceń czy wskazana wersja jest aktualna i aktywnie utrzymywana\n3. Podaj zwięzły raport z oceną ryzyka NISKIE / ŚREDNIE / WYSOKIE dla każdej zależności oraz ewentualne zalecenia.\n\nJeśli plik nie zawiera żadnych zależności, napisz to krótko.\nOdpowiedz w języku polskim.",
+            "model": "claude-sonnet-4-6",
+            "timeout": 180,
+            "statusMessage": "Weryfikacja bezpieczenstwa zaleznosci Maven..."
+          }
+        ]
+      }
+    ]
+  }
 }
