@@ -530,7 +530,10 @@ Main agent can delegate tasks to sub-agents (often specialized), to focus on orc
   - Copilot: [About custom agents - GitHub Docs](https://docs.github.com/en/copilot/concepts/agents/coding-agent/about-custom-agents)
   - OpenCode: [Agents | OpenCode](https://opencode.ai/docs/agents/)
   - Goose: [Subagents | goose](https://block.github.io/goose/docs/guides/subagents/)
-- Parallel Agents / **Git Worktrees**:
+- Nested Sub-Agents (sub-agents spawned by sub-agents):
+  - [Claude Code - Nested Sub-Agents](https://code.claude.com/docs/en/sub-agents#spawn-nested-subagents) (max depth is 5, not configurable)
+  - [Codex Subagent settings](https://developers.openai.com/codex/subagents#global-settings) - `agent.max_threads` (default: 6 - maximum number of concurrent agents) & `agent.max_depth` (default: 1 - only main agent can spawn sub-agents, set to 2+ to allow nested sub-agents)
+- **Git Worktrees** for Parallel Agents in same repository:
   - What is a Git Worktree? [Git Worktree Docs](https://git-scm.com/docs/git-worktree)
   - Claude: [Run parallel Claude code sessions with Git worktrees | Claude Docs](https://code.claude.com/docs/en/common-workflows#run-parallel-claude-code-sessions-with-git-worktrees)
   - Codex: [Worktrees | OpenAI Codex Docs](https://developers.openai.com/codex/app/worktrees/)
