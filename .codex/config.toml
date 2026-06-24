@@ -1,21 +1,34 @@
 # ============================================================
-# Codex CLI configuration (config.toml)
+# Codex CLI & Codex App configuration (config.toml)
 #
-# This file is loaded from CODEX_HOME (usually ~/.codex/config.toml).
+# Main file is loaded from CODEX_HOME (usually ~/.codex/config.toml).
 # Most settings also have CLI equivalents (shown in comments below).
+# You can override any setting in <project_root>/.codex/config.toml
 # ============================================================
 
 # ----------------------------
 # Basic model + behavior config
 # ----------------------------
-model = "gpt-5.4"                # Default model for cloud runs. CLI: codex --model gpt-5.4
-approvals_reviewer = "user"      # Who receives approval prompts. Usually "user".
-personality = "pragmatic"        # Style/tone preset (e.g., pragmatic/friendly/none depending on build).
-sandbox_mode = "workspace-write" # Command/file access policy: workspace-read, workspace-write, danger-full-access
-network_access = true            # Allow outbound network calls (when policy allows). Keep false in restricted environments.
-oss_provider = "ollama"          # Default OSS (Open Source) models provider
-# profile = "openrouter"         # To use profile as default setting
+model = "gpt-5.5"           # Default model for cloud runs. CLI: codex --model gpt-5.4
+model_provider = "openai"   # Can be set to provider from files: openrouter.config.toml
+model_reasoning_effort = "high" # How much LLM should think before providing an answer
 
+# Open Router:
+#model = "deepseek/deepseek-v4-pro" # We have also Azure GPT models on OpenRouter
+#model_provider = "openrouter"      # Uses settings from openrouter.config.toml
+
+# Model name and model_provider should be on top, to change them with my custom bash helpers.
+# default model_provider is "openai", built-in: "ollama", "lmstudio", + we can set custom
+
+oss_provider = "ollama"          # works with `codex --oss` flag (uses GPT OSS models by default)
+# on Free Ollama Account cloud models may NOT work via API (only in Ollama CLI and App)
+
+personality = "pragmatic"          # Style/tone preset (e.g., pragmatic/friendly/none depending on build).
+sandbox_mode = "workspace-write"   # Command/file access policy: workspace-read, workspace-write, danger-full-access
+network_access = true              # Allow outbound network calls (when policy allows). Keep false in restricted environments.
+
+approvals_reviewer = "auto_review" # Who receives approval prompts. Could be "user" or "auto_review"
+approval_policy = "on-request"
 # approval_policy controls when Codex asks before it runs tools/commands.
 # CLI override example:
 #   codex --config 'approval_policy="on-request"'
@@ -41,13 +54,6 @@ oss_provider = "ollama"          # Default OSS (Open Source) models provider
 # [projects.'<your-project-path>']
 # trust_level = "trusted"
 
-# --------------------
-# Model migrations note
-# --------------------
-# Optional reminder layer: when a model name is deprecated, map it to a replacement.
-[notice.model_migrations]
-"gpt-5.3-codex" = "gpt-5.4"
-
 # ----------------
 # Windows sandboxing
 # ----------------
@@ -60,7 +66,16 @@ oss_provider = "ollama"          # Default OSS (Open Source) models provider
 # Feature toggles
 # ----------------
 [features]
-multi_agent = true               # Allow spawning/using multiple agents (if supported by your build).
+apps = true
+multi_agent = true # Allow spawning/using multiple agents (if supported by your build).
+js_repl = false
+
+# Additional plugin marketplace from Anthropic
+[marketplaces.claude-plugins-official]
+last_updated = "2026-06-17T10:24:19Z"
+last_revision = "ccdc03c56532519760df6363a6eef87324470fc8"
+source_type = "git"
+source = "https://github.com/anthropics/claude-plugins-official.git"
 
 # ----------------
 # TUI (terminal UI)
@@ -94,6 +109,28 @@ enabled = true
 # args = ["-y", "@upstash/context7-mcp", "--api-key", "YOUR_API_KEY"]
 # startup_timeout_sec = 20
 
+[mcp_servers.MCP_DOCKER]
+args = [
+    "mcp",
+    "gateway",
+    "run",
+]
+command = "docker.exe"
+enabled = false
+
+[mcp_servers.MCP_DOCKER.env]
+LOCALAPPDATA = 'C:\Users\BiuroEdukey\AppData\Local'
+ProgramData = 'C:\ProgramData'
+ProgramFiles = 'C:\Program Files'
+
+[mcp_servers.chrome-devtools]
+args = [
+    "-y",
+    "chrome-devtools-mcp@latest",
+]
+command = "npx"
+enabled = false
+
 # -----------------------------------------
 # Sandbox details for workspace-write mode
 # -----------------------------------------
@@ -109,6 +146,7 @@ network_access = true            # Allow network when running inside the workspa
 name = "OpenRouter"
 base_url = "https://openrouter.ai/api/v1" # OpenRouter Responses is in beta (Completions is deprecated by Codex)
 env_key = "OPENROUTER_API_KEY" # use env defined in your system
+
 # wire_api = "responses" # only responsnes are supported now. Completions are deprecated in Codex
 # query_params = { api-version = "2025-04-01-preview" }
 #
@@ -126,6 +164,12 @@ env_key = "OPENROUTER_API_KEY" # use env defined in your system
 # ============================================================
 # Profiles (switch configs from CLI)
 # ============================================================
+#
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# IMPORTANT: profiles moved to separate files, e.g. .codex/openrouter.config.toml
+# IMPORTANT: below settings are commented out for reference
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#
 # Profiles define behaviour without editing the file.
 # Usage:
 #   codex --profile oss-cloud
@@ -136,35 +180,35 @@ env_key = "OPENROUTER_API_KEY" # use env defined in your system
 # Make a profile the default by adding at the top of this file:
 # profile = "oss-small"
 
-[profiles.oss-cloud]
-# For Ollama GLM-5 cloud model (great for programming)
-# Run with:
-#   codex --oss --profile oss-cloud
-oss_provider = "ollama"
-model = "glm-5:cloud" # or "deepseek-v3.2:cloud" or "minimax-m2.7:cloud"
-model_context_window = 64000 # Set a larger context window for cloude models
+# [profiles.oss-cloud]
+# # For Ollama GLM-5 cloud model (great for programming)
+# # Run with:
+# #   codex --oss --profile oss-cloud
+# oss_provider = "ollama"
+# model = "glm-5:cloud" # or "deepseek-v3.2:cloud" or "minimax-m2.7:cloud"
+# model_context_window = 64000 # Set a larger context window for cloude models
 
-[profiles.oss-small]
-# Small/fast local model for automations & function-calling style workflows
-# Run with:
-#   codex --oss --profile oss-small
-oss_provider = "ollama"
-model = "lfm2.5-thinking:latest"
-model_context_window = 32000 # Recommended: set a larger context window for OSS models
+# [profiles.oss-small]
+# # Small/fast local model for automations & function-calling style workflows
+# # Run with:
+# #   codex --oss --profile oss-small
+# oss_provider = "ollama"
+# model = "lfm2.5-thinking:latest"
+# model_context_window = 32000 # Recommended: set a larger context window for OSS models
 
-[profiles.local-sql]
-# Run with:
-#   codex --oss --profile oss-sql
-oss_provider = "ollama"
-model = "a-kore/Arctic-Text2SQL-R1-7B"
-model_context_window = 32000 # Recommended: set a larger context window for OSS models
+# [profiles.local-sql]
+# # Run with:
+# #   codex --oss --profile oss-sql
+# oss_provider = "ollama"
+# model = "a-kore/Arctic-Text2SQL-R1-7B"
+# model_context_window = 32000 # Recommended: set a larger context window for OSS models
 
-[profiles.openrouter]
-# To use OpenRouter run with:
-#   codex --profile openrouter
-model_provider = "openrouter"
-model = "deepseek/deepseek-v3.2" # or "z-ai/glm-5" or "minimax/minimax-m2.7", etc.
-model_context_window = 128000 # check for each model what is max contex window
+# [profiles.openrouter]
+# # To use OpenRouter run with:
+# #   codex --profile openrouter
+# model_provider = "openrouter"
+# model = "deepseek/deepseek-v3.2" # or "z-ai/glm-5" or "minimax/minimax-m2.7", etc.
+# model_context_window = 128000 # check for each model what is max contex window
 
 # ============================================================
 # Local / OSS models (Ollama / LM Studio) - OPTIONAL
@@ -227,9 +271,9 @@ model_context_window = 128000 # check for each model what is max contex window
 # Suggested Ollama models (CLI usage quick reference)
 # ============================================================
 # Pick a model per run:
-#   codex --oss -m glm-5:cloud
-#   codex --oss -m minimax-m2.7:cloud
-#   codex --oss -m nemotron-3-super:cloud
+#   codex --oss -m glm-5.2:cloud
+#   codex --oss -m minimax-m3:cloud
+#   codex --oss -m nemotron-3-ultra:cloud
 #
 # SQL expert model from Snowflake:
 #   codex --oss -m a-kore/Arctic-Text2SQL-R1-7B

@@ -26,7 +26,6 @@ app/                 Application built during the course (start: empty scaffold)
 assets/              Design tokens, logo, favicon
 docs/                PRD, ADR, design system
 course-materials/    Notes, scripts, examples, research
-examples/            Reference agent configs (Java/Spring Boot)
 ```
 
 ---
