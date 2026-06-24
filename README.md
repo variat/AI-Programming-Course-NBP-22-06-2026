@@ -17,11 +17,11 @@
 
 To repozytorium zawiera materiały do 5-dniowego kursu **AI w Programowaniu** prowadzonego przez JSystems, w wersji dedykowanej dla **NBP**. Kurs skupia się na workflow pracy z agentami AI (Claude Code, OpenAI Codex CLI), a nie na jednym konkretnym narzędziu.
 
-Uczestnicy pracują w swoim preferowanym języku programowania (Java, Python, C#, Go, Rust i inne). Prowadzący demonstruje rozwiązania w **TypeScript/Node.js** (np. z **Vercel AI SDK**), natomiast **głównym językiem backendu może być Java** — ostateczny wybór zostanie podjęty wspólnie z grupą podczas etapu ADR.
+Uczestnicy pracują w swoim preferowanym języku programowania (Java, Python, C#, Go, Rust i inne). Prowadzący demonstruje koncepcje na różnych stackach, natomiast w tej edycji NBP backend aplikacji zbudowano w **Javie/Spring Boot**, a frontend w **Angularze** — wybór podjęty wspólnie z grupą podczas etapu ADR (zob. `docs/ADR/`).
 
 ### Projekt kursu
 
-Multimodalna aplikacja AI — na przykład agent weryfikujący usterki, zwroty i reklamacje sprzętu elektronicznego. Konkretny projekt i tech stack ustalane są live z grupą po przez proces: research → PRD → ADR → implementacja z agentami.
+Multimodalna aplikacja AI — **Hardware Service Decision Copilot**: asystent wspierający decyzje o zwrotach i reklamacjach sprzętu elektronicznego. Projekt i tech stack ustalono live z grupą w procesie: research → PRD → ADR → implementacja z agentami. Wybrany stack tej edycji (zob. `docs/ADR/`): **backend Java/Spring Boot** (`openai-java` → OpenRouter, SQLite + JPA), **frontend Angular + Angular Material**.
 
 ---
 
@@ -52,11 +52,11 @@ examples/            Przykładowe konfiguracje agentów (Java/Spring Boot)
 
 ## Technologie
 
-Kurs jest stack-agnostic. Technologie zostaną wybrane live z grupą podczas ADR. Możliwe opcje:
+Kurs jest stack-agnostic — techniki przenoszą się na dowolny język. Stack aplikacji budowanej w tej edycji wybrano podczas ADR (zob. `docs/ADR/`):
 
-- **Java** (możliwy główny backend dla NBP): Spring Boot, Spring AI (zobacz `examples/agent-configs/`)
-- **TypeScript/Node.js** (demo prowadzącego): Next.js, Vercel AI SDK, Mastra
-- Inne stacki wg preferencji uczestników
+- **Backend:** Java 21 / Spring Boot 3.5.x, `openai-java` → OpenRouter (Chat Completions), SQLite + Spring Data JPA
+- **Frontend:** Angular 20 + Angular Material, `ngx-markdown`, streaming przez SSE
+- Uczestnicy mogą pracować w dowolnym stacku wg preferencji (Java, Python, C#, Go, Rust, TypeScript/Node.js …)
 
 ---
 
