@@ -1,4 +1,4 @@
----
+  ---
 name: be-developer
 description: "Use this agent when implementing, modifying, testing or debugging backend code. Use this agent proactively!"
 model: sonnet
