@@ -29,7 +29,6 @@ app/frontend/        Angular 20 frontend (Angular Material)
 assets/              Design tokens, logo, favicon
 docs/                PRD, ADR, design system
 course-materials/    Notes, scripts, examples, research
-examples/            Reference agent configs (Java/Spring Boot)
 ```
 
 ---
