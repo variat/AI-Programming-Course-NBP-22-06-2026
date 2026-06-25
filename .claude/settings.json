@@ -92,7 +92,10 @@
       "Bash(docker rmi:*)",
       "Bash(docker-compose down:*)",
 
-      "Read(.env.*)",
+      "Read(.env)",
+      "Read(.env.local)",
+      "Read(.env.prod)",
+      "Read(.env.stage)",
       "Read(**/.env)",
       "Read(**/logs/**)",
       "Read(**/secrets/**)",
@@ -129,5 +132,9 @@
         ]
       }
     ]
+  }
+  "statusLine": {
+    "type": "command",
+    "command": "bash C:/Users/labuser/.claude/statusline.sh"
   }
 }
