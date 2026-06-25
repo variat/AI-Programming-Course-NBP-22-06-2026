@@ -6,9 +6,11 @@ This is a **course project** for the "AI dla programistów — od pomysłu do MV
 
 This is only the **base starting repository** for the course; concrete decisions are made live with the group.
 
-**Primary demo stack:** TypeScript/Node.js (Next.js, Vercel AI SDK).
-**Java may be used as the main backend language** for this NBP edition (Spring Boot, Spring AI — see `examples/agent-configs/`); the final choice is made with the group during the ADR phase.
-Participants may work in any language (Java, Python, C#, Go, Rust, etc.).
+**Chosen stack (this NBP edition — see `docs/ADR/000-main-architecture.md`):**
+- **Backend:** Java 21 / Spring Boot 3.5.x (Maven), `openai-java` → OpenRouter **Chat Completions**, SQLite + Spring Data JPA.
+- **Frontend:** Angular 20 + Angular Material, `ngx-markdown`, streaming chat over SSE.
+
+The base course itself is stack-agnostic — participants may work in any language (Java, Python, C#, Go, Rust, etc.). The stack above was finalized with the group during the ADR phase.
 
 All user-facing text in **Polish**.
 
@@ -22,7 +24,8 @@ All user-facing text in **Polish**.
 ## Repository Layout
 
 ```
-app/                 Application built during the course (start: empty scaffold)
+app/backend/         Spring Boot backend (Java 21, Maven)
+app/frontend/        Angular 20 frontend (Angular Material)
 assets/              Design tokens, logo, favicon
 docs/                PRD, ADR, design system
 course-materials/    Notes, scripts, examples, research
@@ -49,10 +52,14 @@ If the area has no suitable test infrastructure yet, add it as part of the task 
 
 ### Verification (required before every commit)
 
-Run the commands appropriate for the chosen stack. Typically for a TypeScript project:
+Run the commands for the changed scope:
 ```bash
-npm test             # unit/integration tests pass
-npm run lint         # ESLint — no errors
+# Backend (app/backend)
+mvn test             # unit + integration tests pass
+mvn verify           # full verification / build succeeds
+
+# Frontend (app/frontend)
+npm test             # unit tests pass
 npm run build        # build succeeds
 ```
 
@@ -90,9 +97,7 @@ Common libraries (resolve via `resolve-library-id` if the ID changes):
 
 | Library | Context7 ID |
 |---|---|
-| Vercel AI SDK | `/vercel/ai` |
-| Next.js | `/vercel/next.js` |
-| React | `/reactjs/react.dev` |
-| Tailwind CSS | `/tailwindlabs/tailwindcss.com` |
-| Shadcn/ui | `/shadcn-ui/ui` |
-| Mastra | `/mastra-ai/mastra` |
+| Spring Boot | `/spring-projects/spring-boot` |
+| OpenAI Java SDK | `/openai/openai-java` |
+| Angular | `/websites/angular_dev` |
+| Angular Material | `/websites/material_angular_dev` |
