@@ -21,7 +21,7 @@ Notes from course for JSystem — AI dla programistów: od pomysłu do MVP
   - Vibe Coding definition: [X.com](https://x.com/karpathy/status/1886192184808149383?lang=en)
 - **Context rot & Context engineering**
 - **Async Codding Agents in Cloud & on Mobile**
-- CLI tools, Automation (Auto Review, Auto Mode), YOLO in container/cloud or local device (e.g. mac mini, Nvidia DGX Spark, AMD Strix Halo)
+- CLI tools, Automation (Auto Review, Auto Mode, Schedules/Rutines, Loops), YOLO in container/cloud or local device (e.g. mac mini, Nvidia DGX Spark, AMD Strix Halo)
 - Huge jump in quality of **Opus 4.5+**, GPT 5.4 and Gemini 3
 - **Open Source LLMs** are very close to top models:
   - GLM-5.2, Minimax M3, Kimi K2.6, DeepSeek v4 Pro - best OSS models are all from China
@@ -197,15 +197,39 @@ Notes from course for JSystem — AI dla programistów: od pomysłu do MVP
   - [How was DeepSeek-R1 built; For dummies : r/LLMDevs](https://www.reddit.com/r/LLMDevs/comments/1ibhpqw/how_was_deepseekr1_built_for_dummies/)
   - It changed a lot in AI, enabled Vibe Coding, Autonomus Agents
   - Should we always use reasoning models??? :)
-- Types of AI Assistance in programming:
+- Types of AI Assistance in programming (quick history):
   - **autocomplete** (starting from [Tabnine](https://www.tabnine.com/), GH Copilot, now Cursor Tab [based on Supermaven](https://supermaven.com/blog/cursor-announcement))
   - Chat / Research / Talk about your code
   - Inline Generation
   - Code Generation, planning, TODOs, Tools, MCPs, etc.
-  - Agentic workflows, task automation (local), not only codding, e.g.
-    - Goose
-    - Claude Cowork: [Introducing Cowork | Claude](https://claude.com/blog/cowork-research-preview)
-  - Agentic workflows in the cloud, CI/CD, Repo
+  - **Agentic workflows**, local task automation, loops, goals (not only codding):
+    - Local Agents for Business:
+      - Claude Cowork: [Introducing Cowork | Claude](https://claude.com/blog/cowork-research-preview)
+      - Codex for Everyday work mode:
+        - Settings > General > Work Mode > For coding | For everyday work
+        - Removes Git, code diff and features dedicated for developers
+        - [Codex for Work](https://chatgpt.com/codex/for-work/)
+        - [Codex Academy: How to Use Codex for Everyday Work](https://openai.com/academy/how-to-use-codex-for-everyday-work/)
+    - Batching / Scripting - run dozens to hundreds of sub-agents in parallel:
+      - Claude Workflow scripts: [Dynamic Workflows](https://code.claude.com/docs/en/workflows)
+      - Codex CSV file batching: [Codex CSV Batch with Subagents](https://developers.openai.com/codex/subagents#process-csv-batches-with-subagents-experimental)
+    - Hooks - trigger actions in deterministic way on events:
+      - [Claude - Hooks](https://code.claude.com/docs/en/hooks-guide)
+      - [Codex - Hooks](https://developers.openai.com/codex/hooks)
+    - Goals / Loops:
+      - [Claude - Goals](https://code.claude.com/docs/en/goal)
+      - [Codex - Goals](https://developers.openai.com/codex/use-cases/follow-goals)
+    - Schedules / Cron jobs:
+      - [Claude - Scheduled Tasks](https://code.claude.com/docs/en/scheduled-tasks)
+      - [Codex - Automations](https://developers.openai.com/codex/app/automations)
+    - [Goose Recipes](https://goose-docs.ai/docs/guides/recipes/)
+  - **Cloud Automation**, CI/CD, delegation from mobile:
+    - Remote Environments
+    - [Routines](https://code.claude.com/docs/en/routines)
+    - Remote control of local agent
+      - [Claude Dispatch](https://claude.com/blog/dispatch-and-computer-use)
+      - [Claude Remote](https://code.claude.com/docs/en/remote-control)
+      - [Codex Mobile](https://chatgpt.com/codex/mobile/)
 - **Prompting**
   - Polish language in prompting: [AI mówi po polsku – nasz język zdeklasował angielski w najnowszym rankingu (cryps.pl)](https://cryps.pl/sztuczna-inteligencja-mowi-po-polsku-nasz-jezyk-zdeklasowal-angielski-w-najnowszym-rankingu/)
   - Context vs Prompt Engineering: [Effective Context Engineering for AI Agents – Anthropic](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)
@@ -607,7 +631,7 @@ Main agent can delegate tasks to sub-agents (often specialized), to focus on orc
 
 - OpenAI Codex Web
   - [Codex Web](https://chatgpt.com/codex)
-  - NEW! (macOS only now) [Codex App](https://openai.com/pl-PL/codex/)
+  - NEW! (macOS only now) [Codex App](https://openai.com/codex/)
   - [Docs Codex Web](https://developers.openai.com/codex/cloud/)
   - Blog [Introducing Codex Web](https://openai.com/pl-PL/index/introducing-codex/)
 - [Claude Code Web](https://claude.ai/code) (also in mobile app!)

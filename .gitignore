@@ -5,6 +5,8 @@ dist/
 .next/
 .vite/
 
+app/frontend/.angular/cache/
+
 # IDE
 .idea/
 *.iws
